@@ -20,6 +20,7 @@ These shortcuts are inspired by Youtube's keyboard shortcuts.
 ## Speed Increments
 
 The following speed increments are available:
+- 0.75x
 - 1x (Normal)
 - 1.5x
 - 1.75x
