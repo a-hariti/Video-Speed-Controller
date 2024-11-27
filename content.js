@@ -19,15 +19,6 @@ function showSpeedOverlay(speed) {
   overlay.style.borderRadius = '5px';
   overlay.style.zIndex = '10000';
   overlay.textContent = `▶︎ ${speed}X`;
-  // animate if doesn't exist
-  if (!existingOverlay) {
-    // overlay.style.transition = 'opacity 0.2s ease-in-out';
-    // overlay.style.opacity = '0';
-    setTimeout(() => { overlay.style.opacity = '1'; }, 20);
-  } else {
-    // overlay.style.opacity = '1';
-    // overlay.style.transition = 'none';
-  }
 
   document.body.appendChild(overlay);
 
