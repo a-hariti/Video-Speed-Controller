@@ -23,7 +23,7 @@ function showSpeedOverlay(speed) {
 
   document.body.appendChild(overlay);
 
-  // Remove overlay after 2 seconds
+  // Remove overlay after 1.2 seconds
   setTimeout(() => {
     if (document.body.contains(overlay)) {
       document.body.removeChild(overlay);
