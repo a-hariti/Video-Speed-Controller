@@ -1,7 +1,7 @@
 const SPEED_INCREMENTS = [0.75, 1, 1.5, 1.75, 2, 2.5, 3, 3.5];
 
 function showSpeedOverlay(speed) {
-  const existingOverlay = document.getElementById('speed-overlay');
+  const existingOverlay = document.getElementById("speed-overlay");
   if (existingOverlay) {
     document.body.removeChild(existingOverlay);
   }
@@ -45,12 +45,14 @@ function adjustPlaybackSpeed(direction) {
   if (!playingElement) {
     return;
   }
-  console.log("playing at", playingElement.playbackRate);
-  const newSpeed = SPEED_INCREMENTS.find((speed) =>
+  const currentSpeed = playingElement.playbackRate;
+
+  const newSpeed =
     direction === "increase"
-      ? speed > playingElement.playbackRate
-      : speed < playingElement.playbackRate
-  );
+      ? SPEED_INCREMENTS.find((speed) => speed > currentSpeed)
+      // Find the last speed that's immediately less than the current speed
+      : SPEED_INCREMENTS.findLast((speed) => speed < currentSpeed);
+
   if (newSpeed) {
     playingElement.playbackRate = newSpeed;
   }
@@ -71,6 +73,7 @@ function adjustPlaybackSpeed(direction) {
 
   // Show speed overlay
   showSpeedOverlay(playingElement.playbackRate);
+  console.log("> next speed playing at", playingElement.playbackRate);
 }
 
 document.addEventListener("keydown", (event) => {
