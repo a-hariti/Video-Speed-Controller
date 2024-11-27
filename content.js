@@ -50,8 +50,8 @@ function adjustPlaybackSpeed(direction) {
   const newSpeed =
     direction === "increase"
       ? SPEED_INCREMENTS.find((speed) => speed > currentSpeed)
-      // Find the last speed that's immediately less than the current speed
-      : SPEED_INCREMENTS.findLast((speed) => speed < currentSpeed);
+      : // Find the last speed that's immediately less than the current speed
+        SPEED_INCREMENTS.findLast((speed) => speed < currentSpeed);
 
   if (newSpeed) {
     playingElement.playbackRate = newSpeed;
@@ -76,18 +76,23 @@ function adjustPlaybackSpeed(direction) {
   console.log("> next speed playing at", playingElement.playbackRate);
 }
 
-document.addEventListener("keydown", (event) => {
-  // Check for Shift + > (increase speed)
-  if (event.shiftKey && event.key === ">") {
-    event.preventDefault();
-    adjustPlaybackSpeed("increase");
-    event.stopPropagation();
-  }
+document.addEventListener(
+  "keydown",
+  (event) => {
+    // Check for Shift + > (increase speed)
+    if (event.shiftKey && event.key === ">") {
+      event.preventDefault();
+      adjustPlaybackSpeed("increase");
+      event.stopPropagation();
+    }
 
-  // Check for Shift + < (decrease speed)
-  if (event.shiftKey && event.key === "<") {
-    event.preventDefault();
-    adjustPlaybackSpeed("decrease");
-    event.stopImmediatePropagation();
-  }
-});
+    // Check for Shift + < (decrease speed)
+    if (event.shiftKey && event.key === "<") {
+      event.preventDefault();
+      adjustPlaybackSpeed("decrease");
+      event.stopImmediatePropagation();
+    }
+  },
+  // capture phase to prevent the event from being handled by the Youtube handler
+  true
+);
