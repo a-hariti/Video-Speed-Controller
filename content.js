@@ -1,4 +1,4 @@
-const SPEED_INCREMENTS = [0.75, 1, 1.5, 1.75, 2, 2.5, 3, 3.5];
+const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5];
 
 function showSpeedOverlay(speed) {
   const existingOverlay = document.getElementById("speed-overlay");
@@ -94,5 +94,5 @@ document.addEventListener(
     }
   },
   // capture phase to prevent the event from being handled by the Youtube handler
-  true
+  window.location.hostname.includes("youtube.com")
 );
