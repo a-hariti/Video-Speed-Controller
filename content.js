@@ -1,38 +1,22 @@
 const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5];
 
-function showSpeedOverlay(speed) {
-  const existingOverlay = document.getElementById("speed-overlay");
-  if (existingOverlay) {
-    document.body.removeChild(existingOverlay);
-  }
+document.addEventListener(
+  "keydown",
+  ifNoInputFocus(adjustPlaybackSpeed),
+  // capture phase to prevent the event from being handled by the default YouTube handler
+  true
+);
 
-  // Create new overlay
-  const overlay = document.createElement("div");
-  overlay.id = "speed-overlay";
-  overlay.style.position = "fixed";
-  overlay.style.bottom = "0px";
-  overlay.style.left = "0px";
-  overlay.style.backgroundColor = "rgba(0,0,0,0.7)";
-  overlay.style.color = "white";
-  overlay.style.fontFamily = "Roboto, sans-serif";
-  overlay.style.fontSize = "10px";
-  overlay.style.padding = "10px";
-  overlay.style.borderRadius = "5px";
-  overlay.style.zIndex = "10000";
-  overlay.textContent = `▶︎ ${speed}X`;
-
-  document.body.appendChild(overlay);
-
-  // Remove overlay after 1.2 seconds
-  setTimeout(() => {
-    if (document.body.contains(overlay)) {
-      document.body.removeChild(overlay);
-    }
-  }, 1200);
-}
-
+/**
+ * Adjusts the playback speed of the currently playing video/audio element
+ * @param {KeyboardEvent} event - The keyboard event that triggered the speed change
+ * @returns {void}
+ */
 function adjustPlaybackSpeed(event) {
-  let direction;
+  /**
+   * @type {"increase" | "decrease" | null}
+   */
+  let direction = null;
   // Check for Shift + > (increase speed)
   if (event.shiftKey && event.key === ">") {
     direction = "increase";
@@ -89,14 +73,46 @@ function adjustPlaybackSpeed(event) {
   showSpeedOverlay(playingElement.playbackRate);
 }
 
-document.addEventListener(
-  "keydown",
-  ifNoInputFocus(adjustPlaybackSpeed),
-  // capture phase to prevent the event from being handled by the Youtube handler
-  true
-);
+/**
+ * Shows a temporary overlay with the current playback speed
+ * @param {number} speed - The current playback speed to display
+ */
+function showSpeedOverlay(speed) {
+  const existingOverlay = document.getElementById("speed-overlay");
+  if (existingOverlay) {
+    document.body.removeChild(existingOverlay);
+  }
 
-// only run if no input/textarea is focused
+  // Create new overlay
+  const overlay = document.createElement("div");
+  overlay.id = "speed-overlay";
+  overlay.style.position = "fixed";
+  overlay.style.bottom = "0px";
+  overlay.style.left = "0px";
+  overlay.style.backgroundColor = "rgba(0,0,0,0.7)";
+  overlay.style.color = "white";
+  overlay.style.fontFamily = "Roboto, sans-serif";
+  overlay.style.fontSize = "10px";
+  overlay.style.padding = "10px";
+  overlay.style.borderRadius = "5px";
+  overlay.style.zIndex = "10000";
+  overlay.textContent = `▶︎ ${speed}X`;
+
+  document.body.appendChild(overlay);
+
+  // Remove overlay after 1.2 seconds
+  setTimeout(() => {
+    if (document.body.contains(overlay)) {
+      document.body.removeChild(overlay);
+    }
+  }, 1200);
+}
+
+/**
+ * Higher-order function that only executes the callback if no input/textarea is focused
+ * @param {(event: KeyboardEvent) => void} callback - The function to execute if no input is focused
+ * @returns {(event: KeyboardEvent) => void} A wrapped function that checks focus before executing
+ */
 function ifNoInputFocus(callback) {
   return (event) => {
     const activeElement = document.activeElement;
