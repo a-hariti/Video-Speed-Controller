@@ -31,7 +31,20 @@ function showSpeedOverlay(speed) {
   }, 1200);
 }
 
-function adjustPlaybackSpeed(direction) {
+function adjustPlaybackSpeed(event) {
+  let direction;
+  // Check for Shift + > (increase speed)
+  if (event.shiftKey && event.key === ">") {
+    direction = "increase";
+  }
+
+  // Check for Shift + < (decrease speed)
+  if (event.shiftKey && event.key === "<") {
+    direction = "decrease";
+  }
+
+  if (!direction) return;
+
   // Find all video and audio elements
   const mediaElements = [
     ...document.getElementsByTagName("video"),
@@ -55,6 +68,7 @@ function adjustPlaybackSpeed(direction) {
 
   if (newSpeed) {
     playingElement.playbackRate = newSpeed;
+    event.stopImmediatePropagation();
   }
 
   // Hide YouTube's speed indicator if we're on YouTube
@@ -73,26 +87,27 @@ function adjustPlaybackSpeed(direction) {
 
   // Show speed overlay
   showSpeedOverlay(playingElement.playbackRate);
-  console.log("> next speed playing at", playingElement.playbackRate);
 }
 
 document.addEventListener(
   "keydown",
-  (event) => {
-    // Check for Shift + > (increase speed)
-    if (event.shiftKey && event.key === ">") {
-      event.preventDefault();
-      adjustPlaybackSpeed("increase");
-      event.stopPropagation();
-    }
-
-    // Check for Shift + < (decrease speed)
-    if (event.shiftKey && event.key === "<") {
-      event.preventDefault();
-      adjustPlaybackSpeed("decrease");
-      event.stopImmediatePropagation();
-    }
-  },
+  ifNoInputFocus(adjustPlaybackSpeed),
   // capture phase to prevent the event from being handled by the Youtube handler
-  window.location.hostname.includes("youtube.com")
+  true
 );
+
+// only run if no input/textarea is focused
+function ifNoInputFocus(callback) {
+  return (event) => {
+    const activeElement = document.activeElement;
+    if (
+      activeElement.tagName === "INPUT" ||
+      activeElement.tagName === "TEXTAREA" ||
+      activeElement.getAttribute("contenteditable") === "true"
+    ) {
+      // allow typing < and >
+      return;
+    }
+    callback(event);
+  };
+}
