@@ -1,4 +1,4 @@
-const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5];
+const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 2.75, 3, 3.5];
 
 document.addEventListener(
   "keydown",
@@ -116,6 +116,9 @@ function showSpeedOverlay(speed) {
 function ifNoInputFocus(callback) {
   return (event) => {
     const activeElement = document.activeElement;
+    if (!activeElement) {
+      return;
+    }
     if (
       activeElement.tagName === "INPUT" ||
       activeElement.tagName === "TEXTAREA" ||

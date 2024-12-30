@@ -27,6 +27,7 @@ The following speed increments are available:
 - 1.75x
 - 2x
 - 2.5x
+- 2.75x
 - 3x
 - 3.5x
 
