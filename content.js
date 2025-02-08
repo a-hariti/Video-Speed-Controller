@@ -1,10 +1,10 @@
-const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 2.75, 3, 3.5];
+const SPEED_INCREMENTS = [0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 2.75, 3, 3.25, 3.5];
 
 document.addEventListener(
   "keydown",
   ifNoInputFocus(adjustPlaybackSpeed),
   // capture phase to prevent the event from being handled by the default YouTube handler
-  true
+  true,
 );
 
 /**
@@ -95,7 +95,7 @@ function showSpeedOverlay(speed) {
   overlay.style.fontSize = "10px";
   overlay.style.padding = "10px";
   overlay.style.borderRadius = "5px";
-  overlay.style.zIndex = "10000";
+  overlay.style.zIndex = "1000000";
   overlay.textContent = `▶︎ ${speed}X`;
 
   document.body.appendChild(overlay);
