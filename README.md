@@ -55,4 +55,4 @@ The following speed increments are available:
 This project is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 
-Built with ❤️ by [Abdellah](https://twitter.com/_hariti)
+Built with ❤️ by [Abdellah](https://x.com/drht_)
